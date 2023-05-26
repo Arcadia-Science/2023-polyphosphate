@@ -76,6 +76,21 @@ top_hits_info <- ppk1_results_metadata %>%
   arrange(desc(alntmscore)) %>% 
   select(accession, seqid, alntmscore, Taxonomic.lineage, Phylum)
 
+# retrieve all pseudomonadota results 
+ppk1_pseud_accession_list <- ppk1_results_metadata %>% 
+  filter(Phylum == 'Pseudomonadota') %>% 
+  filter(seqid > 0.6) %>% 
+  select(accession)
+
+ppk1_pseud_metadata <- ppk1_results_metadata %>% 
+  filter(Phylum == 'Pseudomonadota') %>% 
+  filter(seqid > 0.6) %>% 
+  select(accession, alntmscore, Organism, Taxonomic.lineage)
+
+write.table(ppk1_pseud_accession_list, "metadata/pseudomonadota-ppk1-list.txt", sep="\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
+
+write.table(ppk1_pseud_metadata, "metadata/pseudomonadota-ppk1-metadata.tsv", sep="\t", quote=FALSE, row.names = FALSE)
+
 #################################################
 # Tetrasphaera japonica ppk1 comparisons
 #################################################
