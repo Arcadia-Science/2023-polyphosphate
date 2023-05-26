@@ -32,7 +32,7 @@ for uniprot_accession in uniprot_accessions:
         # Download the AlphaFold file
         url = f"https://alphafold.ebi.ac.uk/files/{alphafold_accession}-model_v4.pdb"
         response = requests.get(url)
-        pdb_file_path = f"{args.structures_directory}/{uniprot_accession}-F1-model_v1.pdb"
+        pdb_file_path = f"{args.structures_directory}/{uniprot_accession}-F1-model_v4.pdb"
         with open(pdb_file_path, "w") as pdb_file:
             pdb_file.write(response.text)
 

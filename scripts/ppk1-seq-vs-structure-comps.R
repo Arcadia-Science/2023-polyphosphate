@@ -1,15 +1,22 @@
 library(tidyverse)
+library(ArcadiaColorBrewer)
+library(ggpubr)
 
 # metadata
 ppk1_metadata <- all_filtered_ppk1_accessions %>% 
   mutate(accession = Entry) %>% 
-  select(accession, Organism, Phylum)
+  select(accession, Taxonomic.lineage, Organism, Phylum)
 
 # mmseqs easy-search results 
-ppk1_mmseqs <- read.table("results/test_alignment.m8", sep="\t", col.names = c("mmseqs_query", "mmseqs_target", "seqid", "alnlen", "mismatch", "gaps", "qstart", "qend", "tstart", "tend", "evalue", "bits"))
+ppk1_mmseqs <- read.table("results/CAP_ppk1_sequences_search.m8", sep="\t", col.names = c("mmseqs_query", "mmseqs_target", "seqid", "alnlen", "mismatch", "gaps", "qstart", "qend", "tstart", "tend", "evalue", "bits"))
 
 # foldseek easy-search results
-ppk1_foldseek <- read.table("results/test_structures.m8", sep="\t", col.names=c("foldseek_query","foldseek_target","fident","alnlen","alntmscore","qstart","qend","tstart","tend","evalue","bits"))
+ppk1_foldseek <- read.table("results/CAP_ppk1_structures_search.m8", sep="\t", col.names=c("foldseek_query","foldseek_target","fident","alnlen","alntmscore","qstart","qend","tstart","tend","evalue","bits"))
+
+# histogram of frequencies of seq id
+ppk1_mmseqs %>% 
+  ggplot(aes(x=seqid)) +
+  geom_histogram()
 
 # histogram of frequencies of alntmscores
 ppk1_foldseek %>% 
@@ -30,9 +37,36 @@ ppk1_foldseek_filtered <-ppk1_foldseek %>%
 ppk1_results <- left_join(ppk1_mmseqs_filtered, ppk1_foldseek_filtered)
 
 # merge with metadata to get taxonomy information
-ppk1_results_metadata <- left_join(ppk1_results, ppk1_metadata)
+ppk1_results_metadata <- left_join(ppk1_results, ppk1_metadata) %>% 
+  mutate(Phylum = if_else(is.na(Phylum), "Other", Phylum))
 
 # plot comparison of protein seqid to alntmscore against Candidatus Accumulibacter ppk1 query 
+top_filtered_phyla <- ppk1_results_metadata %>% 
+  count(Phylum) %>% 
+  top_n(10, n) %>% 
+  pull(Phylum)
+
+all_CAP_ppk1_comps_plot <- ppk1_results_metadata %>% 
+  mutate(Phylum = if_else(Phylum %in% top_filtered_phyla, Phylum, "Other")) %>% 
+  ggplot(aes(x=seqid, y=alntmscore)) +
+  geom_point(aes(color=Phylum), alpha=0.5) + 
+  scale_color_manual(values = c("#5088C5", "#F28360", "#3B9886", "#F898AE", "#7A77AB", "#F7B846", "#97CD78", "#BAB0A8", "#C85152", "#8A99AD")) + 
+  geom_rect(xmin = -Inf, xmax = Inf, ymin = 0.97, ymax = Inf, fill = "transparent", color = "black") +
+  theme_pubr(legend = c("bottom")) +
+  labs(x="Protein Sequence Identity", y="Protein Strucutre Alignment (tm_score)") +
+  ggtitle("Comparisons of Protein Sequence Identity and Structure Alignment to Candidatus Accumulibacter Ppk1")
+
+ggsave("figs/all-CAP-ppk1-seq-structure-comps.png", all_CAP_ppk1_comps_plot, width=30, height=20, units=c("cm"))
+
 ppk1_results_metadata %>% 
-  ggplot(aes(x=alntmscore, y=seqid)) +
-  geom_point(aes(color=Phylum))
+  filter(alntmscore > 0.97) %>% 
+  mutate(Phylum = if_else(Phylum %in% top_filtered_phyla, Phylum, "Other")) %>% 
+  ggplot(aes(x=seqid, y=alntmscore)) + 
+  geom_point(aes(color=Phylum)) + 
+  scale_color_manual(values = c("#5088C5", "#F28360", "#F898AE", "#F7B846", "#97CD78", "#BAB0A8")) + 
+  theme_pubr(legend = c("bottom"))
+
+top_hits_info <- ppk1_results_metadata %>% 
+  filter(alntmscore > 0.97) %>% 
+  arrange(desc(alntmscore)) %>% 
+  select(accession, seqid, alntmscore, Taxonomic.lineage, Phylum)
