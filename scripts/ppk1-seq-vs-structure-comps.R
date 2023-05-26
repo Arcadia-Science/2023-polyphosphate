@@ -7,6 +7,10 @@ ppk1_metadata <- all_filtered_ppk1_accessions %>%
   mutate(accession = Entry) %>% 
   select(accession, Taxonomic.lineage, Organism, Phylum)
 
+#################################################
+# Accumulibacter phosphatis ppk1 comparisons
+#################################################
+
 # mmseqs easy-search results 
 ppk1_mmseqs <- read.table("results/CAP_ppk1_sequences_search.m8", sep="\t", col.names = c("mmseqs_query", "mmseqs_target", "seqid", "alnlen", "mismatch", "gaps", "qstart", "qend", "tstart", "tend", "evalue", "bits"))
 
@@ -52,9 +56,11 @@ all_CAP_ppk1_comps_plot <- ppk1_results_metadata %>%
   geom_point(aes(color=Phylum), alpha=0.5) + 
   scale_color_manual(values = c("#5088C5", "#F28360", "#3B9886", "#F898AE", "#7A77AB", "#F7B846", "#97CD78", "#BAB0A8", "#C85152", "#8A99AD")) + 
   geom_rect(xmin = -Inf, xmax = Inf, ymin = 0.97, ymax = Inf, fill = "transparent", color = "black") +
-  theme_pubr(legend = c("bottom")) +
+  theme_pubr(legend = c(0.8, 0.5)) +
   labs(x="Protein Sequence Identity", y="Protein Strucutre Alignment (tm_score)") +
   ggtitle("Comparisons of Protein Sequence Identity and Structure Alignment to Candidatus Accumulibacter Ppk1")
+
+all_CAP_ppk1_comps_plot
 
 ggsave("figs/all-CAP-ppk1-seq-structure-comps.png", all_CAP_ppk1_comps_plot, width=30, height=20, units=c("cm"))
 
