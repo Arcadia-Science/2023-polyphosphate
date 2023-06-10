@@ -1,3 +1,7 @@
+.nextflow/
+.nextflow.log*
+work/
+test/
 results/tmp/
 package.json
 pdbs/
