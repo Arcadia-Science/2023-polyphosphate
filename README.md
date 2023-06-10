@@ -33,7 +33,7 @@ foldseek easy-search ref_ppk1/AF-A0A369XMZ4-F1-model_v4.pdb structures ../result
 ### Exploration and Visualization
 The R script `scripts/ppk1-seq-vs-structure-comps.R` combines the outputs of `mmseqs2` and `foldseek` and plots the comparison of protein sequence identity to Tm score to the provided query protein.
 
-### Workflow
+## Workflow
 The steps for running mmseqs and foldseek `easy-search` and plotting the comparison of protein sequence identity and Tm score is automated with a Nextflow workflow and can be run for example:
 
 ```
@@ -43,3 +43,5 @@ nextflow run main.nf --query A0A369XMZ4 \\
     --all_proteins protein_structures/dbs/all_ppk1_protein_seqs.fasta \\
     --outdir results
 ```
+
+You can see an example of the figure that is produced in `figs`
