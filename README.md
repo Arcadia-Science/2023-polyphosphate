@@ -38,10 +38,10 @@ The steps for running mmseqs and foldseek `easy-search` and plotting the compari
 
 ```
 nextflow run main.nf --query A0A369XMZ4 \\
-     --sequence_dir protein_structures/fastas \\
+    --sequence_dir protein_structures/fastas \\
     --structure_dir protein_structures/structures \\
     --all_proteins protein_structures/dbs/all_ppk1_protein_seqs.fasta \\
     --outdir results
 ```
 
-You can see an example of the figure that is produced in `figs`
+Where all protein sequences and folded structures are downloaded and in separate directories, including the query accession. Additionally for this example, all the proteins are concatenated together in a single FASTA file, which you can point to a directory to do so with `scripts/reorganize_fastas.py`. You can see an example of the figure that is produced by the pipeline in `figs`, and resulting TSV files in `results`.
