@@ -30,5 +30,16 @@ Then run `foldseek easy-search` using the Accumulibacter ppk1 protein Alphafold 
 ```
 foldseek easy-search ref_ppk1/AF-A0A369XMZ4-F1-model_v4.pdb structures ../results/CAP_ppk1_structures_search.m8 ../results/tmp --format-output "query,target,fident,alnlen,alntmscore,qstart,qend,tstart,tend,evalue,bits" --exhaustive-search 1
 ```
-
 ### Exploration and Visualization
+The R script `scripts/ppk1-seq-vs-structure-comps.R` combines the outputs of `mmseqs2` and `foldseek` and plots the comparison of protein sequence identity to Tm score to the provided query protein.
+
+### Workflow
+The steps for running mmseqs and foldseek `easy-search` and plotting the comparison of protein sequence identity and Tm score is automated with a Nextflow workflow and can be run for example:
+
+```
+nextflow run main.nf --query A0A369XMZ4 \\
+     --sequence_dir protein_structures/fastas \\
+    --structure_dir protein_structures/structures \\
+    --all_proteins protein_structures/dbs/all_ppk1_protein_seqs.fasta \\
+    --outdir results
+```
