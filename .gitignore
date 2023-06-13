@@ -1,3 +1,5 @@
+*.tar.gz
+databases/
 .nextflow/
 .nextflow.log*
 work/
