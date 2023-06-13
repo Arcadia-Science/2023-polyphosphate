@@ -64,15 +64,15 @@ all_CAP_ppk1_comps_plot
 ggsave("figs/all-CAP-ppk1-seq-structure-comps.png", all_CAP_ppk1_comps_plot, width=30, height=20, units=c("cm"))
 
 ppk1_results_metadata %>% 
-  filter(alntmscore > 0.97) %>% 
+  filter(alntmscore > 0.95) %>% 
   mutate(Phylum = if_else(Phylum %in% top_filtered_phyla, Phylum, "Other")) %>% 
   ggplot(aes(x=seqid, y=alntmscore)) + 
   geom_point(aes(color=Phylum)) + 
-  scale_color_manual(values = c("#5088C5", "#F28360", "#F898AE", "#F7B846", "#97CD78", "#BAB0A8")) + 
+  scale_color_manual(values = c("#5088C5", "#F28360", "#3B9886", "#F898AE", "#7A77AB", "#F7B846", "#97CD78", "#BAB0A8", "#C85152", "#8A99AD")) + 
   theme_pubr(legend = c("bottom"))
 
 top_hits_info <- ppk1_results_metadata %>% 
-  filter(alntmscore > 0.97) %>% 
+  filter(alntmscore > 0.95) %>% 
   arrange(desc(alntmscore)) %>% 
   select(accession, seqid, alntmscore, Taxonomic.lineage, Phylum)
 
