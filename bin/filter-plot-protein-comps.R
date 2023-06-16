@@ -12,6 +12,7 @@ args <- commandArgs(trailingOnly = TRUE)
 metadata_tsv             <- args[1]
 mmseqs_tsv               <- args[2]
 foldseek_tsv             <- args[3]
+query                    <- args[4]
 
 # metadata cleaning
 metadata_table <- read_tsv(metadata_tsv, col_names = TRUE)
@@ -54,7 +55,7 @@ plot <- result_df_info %>%
   geom_point(aes(color=Phylum), alpha=0.5) + 
   scale_color_manual(values = c("#5088C5", "#F28360", "#3B9886", "#F898AE", "#7A77AB", "#F7B846", "#97CD78", "#BAB0A8", "#C85152", "#8A99AD")) + 
   theme_classic() +
-  labs(x="Protein Sequence Identity", y="Protein Strucutre Alignment (Tm score)")
+  labs(x="Protein Sequence Identity", y="Protein Strucutre Alignment (Tm score)", title = paste("Comparisons of Protein Sequence Identity and Structure Alignment to", query))
 
 ggsave("figs/result.png", plot, width=30, height=20, units=c("cm"))
 
