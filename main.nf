@@ -106,6 +106,6 @@ process combine_visualize {
 
     script:
     """
-    Rscript bin/filter-plot-protein-comps.R ${metadata} ${mmseqs_tsv} ${foldseek_tsv} ${query}
+    Rscript ${baseDir}/bin/filter-plot-protein-comps.R ${metadata} ${mmseqs_tsv} ${foldseek_tsv} ${query} "${query}-comps.png"
     """
 }

@@ -1,5 +1,4 @@
 library(tidyverse)
-library(ggpubr)
 
 #################################################
 # Script to join mmseqs and folseek results and plot comparisons
@@ -13,6 +12,7 @@ metadata_tsv             <- args[1]
 mmseqs_tsv               <- args[2]
 foldseek_tsv             <- args[3]
 query                    <- args[4]
+outdir                   <- args[5]
 
 # metadata cleaning
 metadata_table <- read_tsv(metadata_tsv, col_names = TRUE)
@@ -57,6 +57,6 @@ plot <- result_df_info %>%
   theme_classic() +
   labs(x="Protein Sequence Identity", y="Protein Strucutre Alignment (Tm score)", title = paste("Comparisons of Protein Sequence Identity and Structure Alignment to", query))
 
-ggsave("figs/result.png", plot, width=30, height=20, units=c("cm"))
+ggsave(outdir, plot, width=30, height=20, units=c("cm"))
 
 
