@@ -20,7 +20,7 @@ Accessions on Uniprot were retrieved by searching "ppk1" and either filtered by 
 
 Protein FASTA accessions and corresponding Alphafold structures are downloaded with `scripts/download_alphafold_pdbs.py`. For Uniprot the Uniprot accession mostly matches the name of the Alphafold PDB file, but the script still checks against the alphafold accessions CSV that was downloaded from the Alphafold website.
 
-### `mmseqs` and `folseek` Comparisons
+### `mmseqs` and `foldseek` Comparisons
 First run `mmseqs easy-search` using the Accumulibacter ppk1 protein sequence as a query against all downloaded Uniprot ppk1 accessions with:
 ```
 mmseqs easy-search ref_ppk1/A0A369XMZ4.fasta dbs/all_ppk1_protein_seqs.fasta ../results/CAP_ppk1_results.m8 ../results/tmp --exhaustive-search
@@ -41,6 +41,7 @@ nextflow run main.nf --query A0A369XMZ4 \\
     --sequence_dir protein_structures/fastas \\
     --structure_dir protein_structures/structures \\
     --all_proteins protein_structures/dbs/all_ppk1_protein_seqs.fasta \\
+    --metadata metadata/all-filtered-ppk1-accessions.tsv
     --outdir results
 ```
 
