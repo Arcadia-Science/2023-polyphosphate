@@ -33,6 +33,30 @@ foldseek easy-search ref_ppk1/AF-A0A369XMZ4-F1-model_v4.pdb structures ../result
 ### Exploration and Visualization
 The R script `scripts/ppk1-seq-vs-structure-comps.R` combines the outputs of `mmseqs2` and `foldseek` and plots the comparison of protein sequence identity to Tm score to the provided query protein.
 
+Using the [`gene-family-cartography`](https://github.com/Arcadia-Science/gene-family-cartography/blob/das/clustering/Cartography_explainer.ipynb) workflow with the `from-folder` configuration, I clustered all ppk1 PDB structure files. The workflow is a Snakemake pipeline that runs with:
+
+```
+snakemake --snakefile Snakefile_ff --configfile config_ff_actin.yml --cores n
+```
+
+And the config file looks like:
+
+```
+input_dir: "polyphosphate/protein_structures/structures/"
+output_dir: "polyphosphate/results/ppk1_ff"
+analysis_name: "ppk1"
+
+features_file: "uniprot_features.tsv"
+
+plotting_modes:
+- "pca_tsne"
+- "pca_umap"
+
+taxon_focus: 'bac'
+```
+
+Where I manually made the `uniprot_features.tsv` file from the prior metadata cleaning I did from when I downloaded lists and metadata of the bacterial and archaeal ppk1 accessions and filtered down to a set I was confident in.
+
 ## Workflow
 The steps for running mmseqs and foldseek `easy-search` and plotting the comparison of protein sequence identity and Tm score is automated with a Nextflow workflow and can be run for example:
 
