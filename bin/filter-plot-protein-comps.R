@@ -19,7 +19,8 @@ metadata_table <- read_tsv(metadata_tsv, col_names = TRUE)
 
 metadata_df <- metadata_table %>% 
   mutate(accession = Entry) %>% 
-  select(accession, Taxonomic.lineage, Organism, Phylum)
+  select(accession, Taxonomic.lineage, Organism, Phylum) %>% 
+  mutate(Phylum = if_else(is.na(Phylum), "Other", Phylum))
 
 # mmseqs tsv
 mmseqs_df <- read.table(mmseqs_tsv, sep="\t", col.names = c("mmseqs_query", "mmseqs_target", "seqid", "alnlen", "mismatch", "gaps", "qstart", "qend", "tstart", "tend", "evalue", "bits"))
@@ -35,7 +36,7 @@ mmseqs_filtered <- mmseqs_df %>%
 
 foldseek_filtered <- foldseek_df %>% 
   select(foldseek_target, alntmscore) %>% 
-  mutate(accession = gsub("-F1-model_v1.pdb", "", foldseek_target)) %>% 
+  mutate(accession = gsub(".pdb", "", foldseek_target)) %>% 
   select(accession, alntmscore)
 
 result_df <- left_join(mmseqs_filtered, foldseek_filtered)

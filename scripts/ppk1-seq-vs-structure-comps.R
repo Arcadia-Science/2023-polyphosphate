@@ -76,6 +76,10 @@ top_hits_info <- ppk1_results_metadata %>%
   arrange(desc(alntmscore)) %>% 
   select(accession, seqid, alntmscore, Taxonomic.lineage, Phylum)
 
+stringent_top_hits_info <- ppk1_results_metadata %>% 
+  filter(alntmscore > 0.98) %>% 
+  arrange(desc(alntmscore))
+
 # retrieve all pseudomonadota results 
 ppk1_pseud_accession_list <- ppk1_results_metadata %>% 
   filter(Phylum == 'Pseudomonadota') %>% 
@@ -87,9 +91,21 @@ ppk1_pseud_metadata <- ppk1_results_metadata %>%
   filter(seqid > 0.6) %>% 
   select(accession, alntmscore, Organism, Taxonomic.lineage)
 
+# cluster information
+structure_clusters <- read.table("results/ppk1_clustering_results/struclusters_features.tsv", header = TRUE) %>% 
+  mutate(accession = protid) %>% 
+  select(-protid)
+
+leiden_clusters <- read.table("results/ppk1_clustering_results/leiden_features.tsv", header = TRUE) %>% 
+  mutate(accession = protid) %>% 
+  select(-protid)
+
+ppk1_pseud_metadata_clusters <- left_join(ppk1_pseud_metadata, structure_clusters) %>% 
+  left_join(leiden_clusters)
+
 write.table(ppk1_pseud_accession_list, "metadata/pseudomonadota-ppk1-list.txt", sep="\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
 
-write.table(ppk1_pseud_metadata, "metadata/pseudomonadota-ppk1-metadata.tsv", sep="\t", quote=FALSE, row.names = FALSE)
+write.table(ppk1_pseud_metadata_clusters, "metadata/pseudomonadota-ppk1-metadata.tsv", sep="\t", quote=FALSE, row.names = FALSE)
 
 #################################################
 # Tetrasphaera japonica ppk1 comparisons

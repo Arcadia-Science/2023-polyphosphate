@@ -5,7 +5,8 @@ library(ggpubr)
 # metadata
 ppk1_metadata <- all_filtered_ppk1_accessions %>% 
   mutate(accession = Entry) %>% 
-  select(accession, Taxonomic.lineage, Organism, Phylum)
+  select(accession, Taxonomic.lineage, Organism, Phylum) %>% 
+  mutate(Phylum = replace_na(Phylum, "Other"))
 
 # clustering results
 pca_tsne <- read.table("results/ppk1_clustering_results/all_by_all_tmscore_pivoted_pca_tsne.tsv", header = TRUE) %>% 
@@ -28,12 +29,17 @@ top_filtered_phyla <- ppk1_results_metadata %>%
   pull(Phylum)
 
 # plotting
+pao_wwtp_points <- data.frame(x=c(93.18268,	-4.820963), y=c(-16.13617, -10.73119))
+
 pca_tsne_plot <- pca_tsne_info %>% 
   mutate(Phylum = if_else(Phylum %in% top_filtered_phyla, Phylum, "Other")) %>%
   ggplot(aes(x=tSNE1, y=tSNE2)) +
   geom_point(aes(color=Phylum), alpha=0.5) + 
   scale_color_manual(values = c("#5088C5", "#F28360", "#3B9886", "#F898AE", "#7A77AB", "#F7B846", "#97CD78", "#BAB0A8", "#C85152", "#8A99AD")) + 
   theme_pubr()
+
+pca_tsne_plot +
+  geom_point(data = pao_wwtp_points, aes(x=x, y=y), shape = 4, size = 5, color = "black")
 
 pca_umap_plot <- pca_umap_info %>% 
   mutate(Phylum = if_else(Phylum %in% top_filtered_phyla, Phylum, "Other")) %>%
@@ -43,17 +49,36 @@ pca_umap_plot <- pca_umap_info %>%
   theme_pubr()
 
 # cluster information
+leiden_clusters <- read.table("results/ppk1_clustering_results/leiden_features.tsv", header = TRUE) %>% 
+  mutate(accession = protid) %>% 
+  select(-protid)
+
 structure_clusters <- read.table("results/ppk1_clustering_results/struclusters_features.tsv", header = TRUE) %>% 
   mutate(accession = protid) %>% 
   select(-protid)
 
-structure_clusters_info <- left_join(structure_clusters, ppk1_metadata)
+leiden_clusters_info <- left_join(leiden_clusters, pca_tsne_info) %>% 
+  left_join(ppk1_results)
+structure_clusters_info <- left_join(structure_clusters, pca_tsne_info) %>% 
+  left_join(ppk1_results)
+
+leiden_clusters_info %>% 
+  mutate(Phylum = if_else(Phylum %in% top_filtered_phyla, Phylum, "Other")) %>%
+  ggplot(aes(x=tSNE1, y=tSNE2)) +
+  geom_point(aes(color=alntmscore), alpha=0.5) +
+  theme_pubr()
 
 structure_clusters_info %>% 
-  group_by(StruCluster) %>% 
+  mutate(Phylum = if_else(Phylum %in% top_filtered_phyla, Phylum, "Other")) %>%
+  ggplot(aes(x=tSNE1, y=tSNE2)) +
+  geom_point(aes(color=StruCluster), alpha=0.5) +
+  theme_pubr()
+
+leiden_clusters_info %>% 
+  group_by(LeidenCluster) %>% 
   count() %>% 
   arrange(desc(n)) %>% 
-  print(n=66)
+  print(n=50)
 
 
 # save figures
