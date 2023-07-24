@@ -3,7 +3,7 @@ library(ArcadiaColorBrewer)
 library(ggpubr)
 
 # metadata
-ppk1_metadata <- all_filtered_ppk1_accessions %>% 
+ppk1_metadata <- read_tsv("metadata/all-filtered-ppk1-accessions.tsv") %>% 
   mutate(accession = Entry) %>% 
   select(accession, Taxonomic.lineage, Organism, Phylum) %>% 
   mutate(Phylum = replace_na(Phylum, "Other"))
@@ -29,7 +29,7 @@ top_filtered_phyla <- ppk1_results_metadata %>%
   pull(Phylum)
 
 # plotting
-pao_wwtp_points <- data.frame(x=c(93.18268,	-4.820963), y=c(-16.13617, -10.73119))
+pao_wwtp_points <- data.frame(x=c(93.18268), y=c(-16.13617))
 
 pca_tsne_plot <- pca_tsne_info %>% 
   mutate(Phylum = if_else(Phylum %in% top_filtered_phyla, Phylum, "Other")) %>%
@@ -49,37 +49,18 @@ pca_umap_plot <- pca_umap_info %>%
   theme_pubr()
 
 # cluster information
-leiden_clusters <- read.table("results/ppk1_clustering_results/leiden_features.tsv", header = TRUE) %>% 
-  mutate(accession = protid) %>% 
-  select(-protid)
-
 structure_clusters <- read.table("results/ppk1_clustering_results/struclusters_features.tsv", header = TRUE) %>% 
   mutate(accession = protid) %>% 
   select(-protid)
 
-leiden_clusters_info <- left_join(leiden_clusters, pca_tsne_info) %>% 
-  left_join(ppk1_results)
 structure_clusters_info <- left_join(structure_clusters, pca_tsne_info) %>% 
   left_join(ppk1_results)
-
-leiden_clusters_info %>% 
-  mutate(Phylum = if_else(Phylum %in% top_filtered_phyla, Phylum, "Other")) %>%
-  ggplot(aes(x=tSNE1, y=tSNE2)) +
-  geom_point(aes(color=alntmscore), alpha=0.5) +
-  theme_pubr()
 
 structure_clusters_info %>% 
   mutate(Phylum = if_else(Phylum %in% top_filtered_phyla, Phylum, "Other")) %>%
   ggplot(aes(x=tSNE1, y=tSNE2)) +
   geom_point(aes(color=StruCluster), alpha=0.5) +
   theme_pubr()
-
-leiden_clusters_info %>% 
-  group_by(LeidenCluster) %>% 
-  count() %>% 
-  arrange(desc(n)) %>% 
-  print(n=50)
-
 
 # save figures
 ggsave("figs/ppk1_pca_tsne_plot_full.png", pca_tsne_plot, width=30, height=25, units=c("cm"))
