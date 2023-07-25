@@ -69,6 +69,7 @@ ppk1_results_metadata %>%
   scale_color_manual(values = c("#5088C5", "#F28360", "#3B9886", "#F898AE", "#7A77AB", "#F7B846", "#97CD78", "#BAB0A8", "#C85152", "#8A99AD")) + 
   theme_pubr(legend = c("bottom"))
 
+# exploring top hits by tmscore
 top_hits_info <- ppk1_results_metadata %>% 
   filter(alntmscore > 0.95) %>% 
   arrange(desc(alntmscore)) %>% 
@@ -78,36 +79,104 @@ stringent_top_hits_info <- ppk1_results_metadata %>%
   filter(alntmscore > 0.98) %>% 
   arrange(desc(alntmscore))
 
-# retrieve all pseudomonadota results above specific seqid
-ppk1_pseud_accession_list <- ppk1_results_metadata %>% 
-  filter(Phylum == 'Pseudomonadota') %>% 
-  filter(seqid > 0.6) %>% 
-  select(accession)
 
-ppk1_pseud_metadata <- ppk1_results_metadata %>% 
-  filter(Phylum == 'Pseudomonadota') %>% 
-  filter(seqid > 0.6) %>% 
-  select(accession, alntmscore, Organism, Taxonomic.lineage)
+#################################### 
+# clustering results
+pca_tsne <- read.table("results/ppk1_clustering_results/all_by_all_tmscore_pivoted_pca_tsne.tsv", header = TRUE) %>% 
+  mutate(accession = protid) %>% 
+  select(-protid)
 
-# retrieve all pseudomonadota hits
-ppk1_all_pseud <- ppk1_results_metadata %>% 
-  filter(Phylum == 'Pseudomonadota') %>% 
-  select(accession)
+pca_umap <- read.table("results/ppk1_clustering_results/all_by_all_tmscore_pivoted_pca_umap.tsv", header=TRUE) %>% 
+  mutate(accession = protid) %>% 
+  select(-protid)
 
-ppk1_all_pseud_metadata <- ppk1_results_metadata %>% 
-  filter(Phylum == 'Pseudomonadota') %>% 
-  select(accession, seqid, alntmscore, Organism, Taxonomic.lineage, Phylum)
+# merge clustering results with metadata
+pca_tsne_info <- left_join(pca_tsne, ppk1_metadata)
+
+pca_umap_info <- left_join(pca_umap, ppk1_metadata)
+
+# top phylum for colors 
+top_filtered_phyla <- ppk1_results_metadata %>% 
+  count(Phylum) %>% 
+  top_n(10, n) %>% 
+  pull(Phylum)
+
+# plotting
+pao_wwtp_points <- data.frame(x=c(93.18268), y=c(-16.13617))
+
+pca_tsne_plot <- pca_tsne_info %>% 
+  mutate(Phylum = if_else(Phylum %in% top_filtered_phyla, Phylum, "Other")) %>%
+  ggplot(aes(x=tSNE1, y=tSNE2)) +
+  geom_point(aes(color=Phylum), alpha=0.5) + 
+  scale_color_manual(values = c("#5088C5", "#F28360", "#3B9886", "#F898AE", "#7A77AB", "#F7B846", "#97CD78", "#BAB0A8", "#C85152", "#8A99AD")) + 
+  theme_pubr()
+
+pca_tsne_plot +
+  geom_point(data = pao_wwtp_points, aes(x=x, y=y), shape = 4, size = 5, color = "black")
+
+pca_umap_plot <- pca_umap_info %>% 
+  mutate(Phylum = if_else(Phylum %in% top_filtered_phyla, Phylum, "Other")) %>%
+  ggplot(aes(x=UMAP1, y=UMAP2)) +
+  geom_point(aes(color=Phylum), alpha=0.5) + 
+  scale_color_manual(values = c("#5088C5", "#F28360", "#3B9886", "#F898AE", "#7A77AB", "#F7B846", "#97CD78", "#BAB0A8", "#C85152", "#8A99AD")) + 
+  theme_pubr()
 
 # cluster information
 structure_clusters <- read.table("results/ppk1_clustering_results/struclusters_features.tsv", header = TRUE) %>% 
   mutate(accession = protid) %>% 
   select(-protid)
 
-ppk1_pseud_metadata_clusters <- left_join(ppk1_pseud_metadata, structure_clusters) %>% 
-  left_join(leiden_clusters)
+leiden_clusters <- read.table("results/ppk1_clustering_results/leiden_features.tsv", header=TRUE) %>% 
+  mutate(accession = protid) %>% 
+  select(-protid)
+
+structure_clusters_info <- left_join(structure_clusters, pca_tsne_info) %>% 
+  left_join(ppk1_results)
+
+leiden_clusters_info <- left_join(leiden_clusters, pca_tsne_info) %>% 
+  left_join(ppk1_results)
+
+structure_clusters_info %>% 
+  mutate(Phylum = if_else(Phylum %in% top_filtered_phyla, Phylum, "Other")) %>%
+  ggplot(aes(x=tSNE1, y=tSNE2)) +
+  geom_point(aes(color=StruCluster), alpha=0.5) +
+  theme_pubr()
+
+sc59 <- structure_clusters_info %>% 
+  filter(StruCluster == 'SC59') %>% 
+  filter(Phylum == 'Pseudomonadota') %>% 
+  mutate(info = "SC59_cluster")
+
+high_hits <- ppk1_results_metadata %>% 
+  filter(alntmscore > 0.98) %>% 
+  mutate(hit = 'high98')
+  
+
+# save figures
+ggsave("figs/ppk1_pca_tsne_plot_full.png", pca_tsne_plot, width=30, height=25, units=c("cm"))
+
+ggsave("figs/ppk1_pca_umap_plot_full.png", pca_umap_plot, width=30, height=25, units=c("cm"))
+
+
+# pseudomonadota-specific information 
+# retrieve all pseudomonadota hits
+ppk1_all_pseud <- ppk1_results_metadata %>% 
+  filter(Phylum == 'Pseudomonadota') %>% 
+  select(accession)
+
+ppk1_all_pseud_metadata <- ppk1_results_metadata %>% 
+  filter(Phylum == 'Pseudomonadota')
+
+# cluster information
+ppk1_pseud_metadata_clusters <- left_join(ppk1_all_pseud_metadata, high_hits) %>% 
+  left_join(structure_clusters_info)
+
+ppk1_pseud_leiden_metadata <- left_join(ppk1_all_pseud_metadata, lc32)
 
 write.table(ppk1_pseud_accession_list, "metadata/pseudomonadota-ppk1-list.txt", sep="\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
 
 write.table(ppk1_pseud_metadata_clusters, "metadata/pseudomonadota-ppk1-metadata.tsv", sep="\t", quote=FALSE, row.names = FALSE)
+
+write.table(ppk1_pseud_leiden_metadata, "metadata/pseudomonadota-leiden-ppk1-metadata.tsv", sep="\t", quote=FALSE, row.names = FALSE)
 
 write.table(ppk1_all_pseud, "metadata/all-pseudo-ppk1-list.txt", sep="\t", quote=FALSE, row.names=FALSE, col.names=FALSE)
