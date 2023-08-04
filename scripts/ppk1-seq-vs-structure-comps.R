@@ -59,7 +59,7 @@ all_CAP_ppk1_comps_plot <- ppk1_results_metadata %>%
   labs(x="Protein Sequence Identity", y="Protein Strucutre Alignment (Tm score)") +
   ggtitle("Comparisons of Protein Sequence Identity and Structure Alignment to Candidatus Accumulibacter Ppk1")
 
-ggsave("figs/all-CAP-ppk1-seq-structure-comps.png", all_CAP_ppk1_comps_plot, width=30, height=20, units=c("cm"))
+ggsave("figs/all-CAP-ppk1-seq-structure-comps.jpg", all_CAP_ppk1_comps_plot, width=30, height=20, units=c("cm"))
 
 ppk1_results_metadata %>% 
   filter(alntmscore > 0.95) %>% 

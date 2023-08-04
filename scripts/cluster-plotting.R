@@ -63,6 +63,6 @@ structure_clusters_info %>%
   theme_pubr()
 
 # save figures
-ggsave("figs/ppk1_pca_tsne_plot_full.png", pca_tsne_plot, width=30, height=25, units=c("cm"))
+ggsave("figs/ppk1_pca_tsne_plot_full.jpg", pca_tsne_plot, width=30, height=25, units=c("cm"))
 
-ggsave("figs/ppk1_pca_umap_plot_full.png", pca_umap_plot, width=30, height=25, units=c("cm"))
+ggsave("figs/ppk1_pca_umap_plot_full.jpg", pca_umap_plot, width=30, height=25, units=c("cm"))
