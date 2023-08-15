@@ -1,0 +1,19 @@
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - nextflow=22.10.6
+  - mmseqs=14.7e284
+  - foldseek=6.29e2557
+  - muscle=5.1
+  - fasttree=2.1.11
+  - empress=1.2.0.dev0
+  - biopython=1.81
+  - python=3.11.2
+  - r=3.6.0
+  - r-tidyverse=2.0.0
+  - r-ggpubr=0.6.0
+  - r-plotly=4.10.2
+  - r-ape=5.7
+  - r-adephylo=1.1_11

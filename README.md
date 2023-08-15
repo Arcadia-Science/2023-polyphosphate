@@ -17,6 +17,10 @@ Using proteins from known polyphosphate-accumulating bacteria from diverse biome
 4. Plot comparisons of sequence vs structure identity for the query proteins from known PAOs
 5. Create a phylogeny of Ppk1 proteins within the _Pseudomonadota_ phylum, explore phylogenetic distance against protein sequence identity/structural homology
 
+To install the software required for data processing and analysis, you can install with conda:
+```
+conda env create -n polyphosphate environment.yml
+```
 ### Prep and Download Accessions
 Accessions on Uniprot were retrieved by searching "ppk1" and either filtered by taxonomy with "Bacteria" or "Archaea." The resulting accessions were then further filtered by length using the R script `scripts/ppk1-uniprot-accessions-filtering.R` where taxonomy information for each accession is also organized.
 
@@ -48,7 +52,13 @@ taxon_focus: 'bac'
 Where I manually made the `uniprot_features.tsv` file from the prior metadata cleaning I did from when I downloaded lists and metadata of the bacterial and archaeal ppk1 accessions and filtered down to a set I was confident in. This file is in the `polyphosphate/protein_structures/structures/` as the snakemake pipeline expects it to be there with all the PDB files. It is analogous to the `metadata/all-filtered-ppk1-accessions.tsv` file.
 
 ### Workflow for `mmseqs` and `foldseek` comparisons to a reference protein accession
-The steps for running mmseqs and foldseek `easy-search` and plotting the comparison of protein sequence identity and Tm score is automated with a Nextflow workflow and can be run for example:
+The steps for running `mmseqs easy-search` and `foldseek easy-search` and plotting the comparison of protein sequence identity and Tm score is automated with a Nextflow workflow.
+
+To use the workflow, you will need to have Docker and Nextflow installed:
+1. Install Docker [according to these instructions for your operating system](https://docs.docker.com/engine/install/).
+2. The easiest way to install Nextflow without worrying about dependency issues on your machine is through a conda environment, and can [install according to the instructions for your operation system](https://docs.conda.io/en/latest/miniconda.html). This is included in the `environment.yml` file.
+
+Then run the workflow with:
 
 ```
 nextflow run main.nf --query A0A369XMZ4 \\
