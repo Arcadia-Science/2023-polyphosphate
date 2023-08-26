@@ -15,7 +15,7 @@ Within polyphosphate-accumulating bacteria from diverse biomes, compare the sequ
 2. Cluster all Ppk1 proteins with `foldseek`
 3. Using the Ppk1 protein from Accumulibacter as a reference, compare against all other Ppk1 protein sequences and structures using `mmseqs` and `foldseek` respectively
 4. Plot comparisons of sequence vs structure identity for the query proteins from known PAOs
-5. Create a phylogeny of Ppk1 proteins within the _Pseudomonadota_ phylum, explore phylogenetic distance against protein sequence identity/structural homology
+5. Infer a phylogeny of Ppk1 proteins within the _Pseudomonadota_ phylum, explore phylogenetic distance against protein sequence identity/structural homology
 
 To install the software required for data processing and analysis, you can install with conda:
 ```
