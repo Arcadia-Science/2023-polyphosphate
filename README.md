@@ -52,7 +52,7 @@ taxon_focus: 'bac'
 Where I manually made the `uniprot_features.tsv` file from the prior metadata cleaning I did from when I downloaded lists and metadata of the bacterial and archaeal ppk1 accessions and filtered down to a set I was confident in. This file is in the `polyphosphate/protein_structures/structures/` as the snakemake pipeline expects it to be there with all the PDB files. It is analogous to the `metadata/all-filtered-ppk1-accessions.tsv` file.
 
 ### Workflow for `mmseqs` and `foldseek` comparisons to a reference protein accession
-The steps for running `mmseqs easy-search` and `foldseek easy-search` and plotting the comparison of protein sequence identity and Tm score is automated with a Nextflow workflow.
+The steps for running `mmseqs easy-search` and `foldseek easy-search` and plotting the comparison of protein sequence identity and Tm-score is automated with a Nextflow workflow.
 
 To use the workflow, you will need to have Docker and Nextflow installed:
 1. Install Docker [according to these instructions for your operating system](https://docs.docker.com/engine/install/).
