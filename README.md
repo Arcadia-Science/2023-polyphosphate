@@ -9,7 +9,7 @@ All bacteria have the genetic repertoire for taking in inorganic phosphorus and 
 **Hypothesis: The structures of proteins involved in polyphosphate metabolism and phosphorus transport are conserved across microorganisms with “enhanced” polyphosphate accumulation, regardless of sequence divergence.**
 
 ## Planned Approach
-Using proteins from known polyphosphate-accumulating bacteria from diverse biomes, compare the protein sequences and structures of proteins involved in inorganic phosphorus transport and polyphosphate metabolism. We will first start with the Ppk1 protein because this protein is crucial for polyphosphate formation. The outline of steps:
+Within polyphosphate-accumulating bacteria from diverse biomes, compare the sequence and structural similarity of proteins involved in inorganic phosphorus transport and polyphosphate metabolism. We will first start with the Ppk1 protein because this protein is crucial for polyphosphate formation. The outline of steps:
 
 1. Collect Uniprot ppk1 accessions of protein sequences and corresponding Alphafold structures for accessions that already have structures predicted
 2. Cluster all Ppk1 proteins with `foldseek`
