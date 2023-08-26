@@ -11,7 +11,7 @@ All bacteria have the genetic repertoire for taking in inorganic phosphorus and 
 ## Planned Approach
 Within polyphosphate-accumulating bacteria from diverse biomes, compare the sequence and structural similarity of proteins involved in inorganic phosphorus transport and polyphosphate metabolism. We will first start with the Ppk1 protein because this protein is crucial for polyphosphate formation. The outline of steps:
 
-1. Collect Uniprot ppk1 accessions of protein sequences and corresponding Alphafold structures for accessions that already have structures predicted
+1. From Uniprot, collect Ppk1 amino acid sequences and corresponding pre-computed Alphafold protein structural predictions
 2. Cluster all Ppk1 proteins with `foldseek`
 3. Using the Ppk1 protein from Accumulibacter as a reference, compare against all other Ppk1 protein sequences and structures using `mmseqs` and `foldseek` respectively
 4. Plot comparisons of sequence vs structure identity for the query proteins from known PAOs
