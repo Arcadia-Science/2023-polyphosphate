@@ -74,7 +74,7 @@ Where all protein sequences and folded structures are downloaded and in separate
 ### Phylogeny of _Pseudomonadota_ Ppk1 Sequences and Phylogenetic Distance Comparisons
 To investigate how phylogenetic distance is related to pairwise sequence identity/structural homology compared to Accumulibacter, I created a phylogenetic tree of Ppk1 proteins within the _Pseudomonadota_ phylum, which is what Accumulibacter as classified within.
 
-1. Cluster sequences at 80% identity using `mmseqs` to get the number of sequences down to a manageable number to make a tree (from ~20,000 to around 1500)
+1. Cluster sequences at 80% identity using `mmseqs` to get the number of sequences down to a manageable number to make a tree (from ~20,000 to around 1,500)
 2. Align sequences with `muscle -super5`
 3. Create the phylogenetic tree with `FastTree`
 4. Root the tree in iTOL using the outgroup _S. coleicolor_ Ppk1 sequence that was propagated in
