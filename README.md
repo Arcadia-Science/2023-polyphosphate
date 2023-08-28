@@ -15,14 +15,14 @@ Within polyphosphate-accumulating bacteria from diverse biomes, compare the sequ
 2. Cluster all Ppk1 proteins with `foldseek`
 3. Using the Ppk1 protein from Accumulibacter as a reference, compare against all other Ppk1 protein sequences and structures using `mmseqs` and `foldseek` respectively
 4. Plot comparisons of sequence vs structure identity for the query proteins from known PAOs
-5. Infer a phylogeny of Ppk1 proteins within the _Pseudomonadota_ phylum, explore phylogenetic distance against protein sequence identity/structural homology
+5. Infer a phylogeny of Ppk1 proteins within the _Pseudomonadota_ phylum by clustering sequences at 80% identity with `mmseqs`, creating alignment with `muscle`, inferring the tree with `FastTree` and visualizing with `Empress`. Explore phylogenetic distance against protein sequence identity/structural homology.
 
 To install the software required for data processing and analysis, you can install with conda:
 ```
 conda env create -n polyphosphate environment.yml
 ```
 ### Prep and Download Accessions
-Accessions on Uniprot were retrieved by searching "ppk1" and either filtered by taxonomy with "Bacteria" or "Archaea." The resulting accessions were then further filtered by length using the R script `scripts/ppk1-uniprot-accessions-filtering.R` where taxonomy information for each accession is also organized.
+Accessions on Uniprot were retrieved by searching "ppk1" and either filtered by taxonomy with "Bacteria" or "Archaea." The resulting accessions were then further filtered by length using the R script `scripts/ppk1-uniprot-accessions-filtering.R` where taxonomy information for each accession is also organized. The metadata table includes information about the protein such as length and formal annotation designation, and taxonomic information about the organism. The `taxonomic.lineage` column was used to parse out phylum to a separate column and used as coloring information for plots.
 
 Protein FASTA accessions and corresponding Alphafold structures are downloaded with `scripts/download_alphafold_pdbs.py`. For Uniprot the Uniprot accession mostly matches the name of the Alphafold PDB file, but the script still checks against the alphafold accessions CSV that was downloaded from the Alphafold website.
 
