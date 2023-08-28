@@ -79,4 +79,4 @@ To investigate how phylogenetic distance is related to pairwise sequence identit
 3. Create the phylogenetic tree with `FastTree`
 4. Root the tree in iTOL using the outgroup _S. coleicolor_ Ppk1 sequence that was propagated in
 5. Visualize in `Empress` coloring by Tmscore, highlighting individuals with > 0.98 Tmscore
-6. Use the Rscript `scripts/phylo-comps.R` to calculate pairwise Patrisian distance, and compare to pairwise Seqid and Tmscore to Accumulibacter for the clustered representatives within the _Pseudomonadota_ phylum, which is output as two interactive `plotly` plots for exploration
+6. Use the Rscript `scripts/phylo-comps.R` to calculate pairwise patristic distance, and compare to pairwise Seqid and Tmscore to Accumulibacter for the clustered representatives within the _Pseudomonadota_ phylum, which is output as two interactive `plotly` plots for exploration
