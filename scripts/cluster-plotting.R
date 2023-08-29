@@ -62,7 +62,17 @@ structure_clusters_info %>%
   geom_point(aes(color=StruCluster), alpha=0.5) +
   theme_pubr()
 
+# accumulibacter clusters info
+acc_clusters_info <- structure_clusters_info %>% 
+  filter(StruCluster == 'SC59' | StruCluster == 'SC13')
+
+acc_other_clusters <- acc_clusters_info %>% 
+  filter(Phylum != "Pseudomonadota") %>% 
+  arrange(desc(alntmscore))
+
 # save figures
 ggsave("figs/ppk1_pca_tsne_plot_full.jpg", pca_tsne_plot, width=30, height=25, units=c("cm"))
+
+ggsave("figs/ppk1_pca_tsne_plot_full.pdf", pca_tsne_plot, width=11, height=8, units=c("in"))
 
 ggsave("figs/ppk1_pca_umap_plot_full.jpg", pca_umap_plot, width=30, height=25, units=c("cm"))
