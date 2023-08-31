@@ -69,7 +69,7 @@ ppk1_phylo_seq_info <- left_join(ppk1_phylo_seq_df, ppk1_info)
 # highlight specific pathogens
 ppk1_phylo_seq_info$highlight <- ifelse(ppk1_phylo_seq_info$target == "Q5FAJ0", "Neisseria gonorrhoeae", ifelse(ppk1_phylo_seq_info$target == "P0DP44", "Pseudomonas aeruginosa", ifelse(ppk1_phylo_seq_info$target == "A0A5B7U1Z3", "Ralstonia solanacearum", ifelse(ppk1_phylo_seq_info$target == "A0A829RFS7", "Acinetobacter baumannii",
                                                "normal"))))
-mycolours <- c("Pseudomonas aeruginosa" = "#5088C5", "Neisseria gonorrhoeae" = "#F28360", "Ralstonia solanacearum" = "#7A77AB", "Acinetobacter baumannii" = "#F898AE", "normal" = "grey")
+mycolours <- c("Pseudomonas aeruginosa" = "#5088C5", "Neisseria gonorrhoeae" = "#3B9886", "Ralstonia solanacearum" = "#7A77AB", "Acinetobacter baumannii" = "#F898AE", "normal" = "grey")
 
 # sequence and phylogenetic distance comparisons
 seq_plot <- ppk1_phylo_seq_info %>% 
