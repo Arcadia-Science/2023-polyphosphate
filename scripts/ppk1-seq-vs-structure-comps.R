@@ -12,10 +12,10 @@ ppk1_metadata <- all_filtered_ppk1_accessions %>%
 #################################################
 
 # mmseqs easy-search results 
-ppk1_mmseqs <- read.table("results/CAP_ppk1_sequences_search.m8", sep="\t", col.names = c("mmseqs_query", "mmseqs_target", "seqid", "alnlen", "mismatch", "gaps", "qstart", "qend", "tstart", "tend", "evalue", "bits"))
+ppk1_mmseqs <- read.table("results/A0A369XMZ4_CAP_ppk1_sequences_search.m8", sep="\t", col.names = c("mmseqs_query", "mmseqs_target", "seqid", "alnlen", "mismatch", "gaps", "qstart", "qend", "tstart", "tend", "evalue", "bits"))
 
 # foldseek easy-search results
-ppk1_foldseek <- read.table("results/CAP_ppk1_structures_search.m8", sep="\t", col.names=c("foldseek_query","foldseek_target","fident","alnlen","alntmscore","qstart","qend","tstart","tend","evalue","bits"))
+ppk1_foldseek <- read.table("results/A0A369XMZ4_CAP_ppk1_structures_search.m8", sep="\t", col.names=c("foldseek_query","foldseek_target","fident","alnlen","alntmscore","qstart","qend","tstart","tend","evalue","bits"))
 
 # histogram of frequencies of seq id
 ppk1_mmseqs %>% 
