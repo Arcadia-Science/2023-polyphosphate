@@ -66,6 +66,8 @@ structure_clusters_info %>%
 acc_clusters_info <- structure_clusters_info %>% 
   filter(StruCluster == 'SC59' | StruCluster == 'SC13')
 
+write.table(acc_clusters_info, "results/accumulibacter_clusters.tsv", quote = FALSE, row.names = FALSE, sep="\t")
+
 acc_other_clusters <- acc_clusters_info %>% 
   filter(Phylum != "Pseudomonadota") %>% 
   arrange(desc(alntmscore))
