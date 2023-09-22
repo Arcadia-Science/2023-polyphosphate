@@ -56,8 +56,8 @@ all_CAP_ppk1_comps_plot <- ppk1_results_metadata %>%
   geom_point(aes(color=Phylum), alpha=0.5) + 
   scale_color_manual(values = c("#5088C5", "#F28360", "#3B9886", "#F898AE", "#7A77AB", "#F7B846", "#97CD78", "#BAB0A8", "#C85152", "#8A99AD")) + 
   theme_pubr(legend = c(0.8, 0.5)) +
-  labs(x="Protein Sequence Identity", y="Protein Strucutre Alignment (Tm score)") +
-  ggtitle("Comparisons of Protein Sequence Identity and Structure Alignment to Candidatus Accumulibacter Ppk1")
+  labs(x="Protein Sequence Similarity", y="Protein Structure Similarity (Tm score)") +
+  ggtitle("Comparisons of PPK1 Protein Sequence and Structure Similarity to Candidatus Accumulibacter PPK1")
 
 ggsave("figs/all-CAP-ppk1-seq-structure-comps.jpg", all_CAP_ppk1_comps_plot, width=30, height=20, units=c("cm"))
 ggsave("figs/all-CAP-ppk1-seq-structure-comps.pdf", all_CAP_ppk1_comps_plot, width=11, height=8, units=c("in"))

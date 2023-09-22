@@ -64,7 +64,7 @@ structure_clusters_info %>%
 
 # accumulibacter clusters info
 acc_clusters_info <- structure_clusters_info %>% 
-  filter(StruCluster == 'SC59' | StruCluster == 'SC13')
+  filter(StruCluster == 'SC59' | StruCluster == 'SC13' | StruCluster == 'SC21')
 
 write.table(acc_clusters_info, "results/accumulibacter_clusters.tsv", quote = FALSE, row.names = FALSE, sep="\t")
 
