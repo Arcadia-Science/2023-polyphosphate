@@ -50,14 +50,17 @@ top_filtered_phyla <- ppk1_results_metadata %>%
   top_n(10, n) %>% 
   pull(Phylum)
 
+
 all_CAP_ppk1_comps_plot <- ppk1_results_metadata %>% 
   mutate(Phylum = if_else(Phylum %in% top_filtered_phyla, Phylum, "Other")) %>% 
   ggplot(aes(x=seqid, y=alntmscore)) +
   geom_point(aes(color=Phylum), alpha=0.5) + 
-  scale_color_manual(values = c("#5088C5", "#F28360", "#3B9886", "#F898AE", "#7A77AB", "#F7B846", "#97CD78", "#BAB0A8", "#C85152", "#8A99AD")) + 
+  scale_color_manual(labels = c("Actinomycetota", "Bacillota", "Bacteroidota", "Pseudomonadota (Delta/Epsilon Divisions)", "Euryarchaeota", "Other", "Planctomycetota", "Pseudomonadota", "Spirochaetes", "Verrucomicrobia"), values = c("#5088C5", "#F28360", "#3B9886", "#F898AE", "#7A77AB", "#F7B846", "#97CD78", "#BAB0A8", "#C85152", "#8A99AD")) + 
   theme_pubr(legend = c(0.8, 0.5)) +
   labs(x="Protein Sequence Similarity", y="Protein Structure Similarity (Tm score)") +
   ggtitle("Comparisons of PPK1 Protein Sequence and Structure Similarity to Candidatus Accumulibacter PPK1")
+
+all_CAP_ppk1_comps_plot
 
 ggsave("figs/all-CAP-ppk1-seq-structure-comps.jpg", all_CAP_ppk1_comps_plot, width=30, height=20, units=c("cm"))
 ggsave("figs/all-CAP-ppk1-seq-structure-comps.pdf", all_CAP_ppk1_comps_plot, width=11, height=8, units=c("in"))

@@ -72,6 +72,9 @@ acc_other_clusters <- acc_clusters_info %>%
   filter(Phylum != "Pseudomonadota") %>% 
   arrange(desc(alntmscore))
 
+# write tables
+write.table(structure_clusters_info, "results/PPK1-structure-clusters-info.tsv", quote=FALSE, row.names=FALSE, sep="\t")
+
 # save figures
 ggsave("figs/ppk1_pca_tsne_plot_full.jpg", pca_tsne_plot, width=30, height=25, units=c("cm"))
 
