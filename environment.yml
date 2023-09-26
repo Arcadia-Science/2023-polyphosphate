@@ -17,3 +17,4 @@ dependencies:
   - r-plotly=4.10.2
   - r-ape=5.7
   - r-adephylo=1.1_11
+  - r-webshot=0.5.5

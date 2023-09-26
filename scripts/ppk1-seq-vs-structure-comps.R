@@ -2,6 +2,10 @@ library(tidyverse)
 library(ArcadiaColorBrewer)
 library(ggpubr)
 
+#################################################
+# Parse results from mmseqs and foldseek and plot, command-line automated script of this is bin/filter-plot-protein-comps.R
+#################################################
+
 # metadata
 ppk1_metadata <- all_filtered_ppk1_accessions %>% 
   mutate(accession = Entry) %>% 

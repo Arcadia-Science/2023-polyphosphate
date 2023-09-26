@@ -2,7 +2,7 @@
 This repository contains notebooks, scripts, workflows, and results for exploring the sequence and structural homology of proteins that are involved in microbial polyphosphate cycling.
 
 ## Background
-Inorganic polyphosphates (polyP) are polymers of orthophosphate and are ubiquitious across life from bacteria to higher eukaryotes. It spans numerous functions such as basic metabolism, sensing/responding to environmental changes, stress survival, sources of ATP, maintenace of cellular structure, etc.
+Inorganic polyphosphates (polyP) are polymers of orthophosphate and are ubiquitous across life from bacteria to higher eukaryotes. It spans numerous functions such as basic metabolism, sensing/responding to environmental changes, stress survival, sources of ATP, maintenance of cellular structure, etc.
 
 All bacteria have the genetic repertoire for taking in inorganic phosphorus and forming chains of polyphosphate, however some bacteria store substantial amounts of intracellular polyphosphate in response to environmental conditions. This leads to the question: _Why are some microorganisms good at accumulating polyphosphate and others are not?_
 
@@ -27,7 +27,7 @@ Accessions on Uniprot were retrieved by searching "ppk1" and either filtered by 
 Protein FASTA accessions and corresponding Alphafold structures are downloaded with `scripts/download_alphafold_pdbs.py`. For Uniprot the Uniprot accession mostly matches the name of the Alphafold PDB file, but the script still checks against the alphafold accessions CSV that was downloaded from the Alphafold website.
 
 ### Cluster all proteins
-Using the [`gene-family-cartography`](https://github.com/Arcadia-Science/gene-family-cartography/blob/das/clustering/Cartography_explainer.ipynb) workflow with the `from-folder` configuration, I clustered all ppk1 PDB structure files. The workflow is a Snakemake pipeline that runs with:
+Using the [`ProteinCartography`](https://github.com/Arcadia-Science/ProteinCartography) workflow with the `from-folder` configuration, I clustered all ppk1 PDB structure files. This was used from a early version of the repository. The workflow is a Snakemake pipeline that runs with:
 
 ```
 snakemake --snakefile Snakefile_ff --configfile config_ff_ppk1.yml --cores n
@@ -49,14 +49,18 @@ plotting_modes:
 taxon_focus: 'bac'
 ```
 
-Where I manually made the `uniprot_features.tsv` file from the prior metadata cleaning I did from when I downloaded lists and metadata of the bacterial and archaeal ppk1 accessions and filtered down to a set I was confident in. This file is in the `polyphosphate/protein_structures/structures/` as the snakemake pipeline expects it to be there with all the PDB files. It is analogous to the `metadata/all-filtered-ppk1-accessions.tsv` file.
+Where I manually made the `uniprot_features.tsv` file from the prior metadata cleaning I did from when I downloaded lists and metadata of the bacterial and archaeal ppk1 accessions and filtered down to a set I was confident in. This file is in the `polyphosphate/protein_structures/structures/` as the snakemake pipeline expects it to be there with all the PDB files. It is analogous to the [`metadata/all-filtered-ppk1-accessions.tsv`]("metadata/all-filtered-ppk1-accessions.tsv") file.
 
 ### Workflow for `mmseqs` and `foldseek` comparisons to a reference protein accession
 The steps for running `mmseqs easy-search` and `foldseek easy-search` and plotting the comparison of protein sequence identity and Tm-score is automated with a Nextflow workflow.
 
 To use the workflow, you will need to have Docker and Nextflow installed:
 1. Install Docker [according to these instructions for your operating system](https://docs.docker.com/engine/install/).
-2. The easiest way to install Nextflow without worrying about dependency issues on your machine is through a conda environment, and can [install according to the instructions for your operation system](https://docs.conda.io/en/latest/miniconda.html). This is included in the `environment.yml` file.
+2. The easiest way to install Nextflow without worrying about dependency issues on your machine is through a conda environment, and can [install according to the instructions for your operation system](https://docs.conda.io/en/latest/miniconda.html). This is included in the `environment.yml` file. You can access the `environment.yml` file and all files neccessary for running the workflow with: 
+
+```
+git clone https://github.com/Arcadia-Science/polyphosphate.git
+```
 
 Then run the workflow with:
 
@@ -80,3 +84,6 @@ To investigate how phylogenetic distance is related to pairwise sequence identit
 4. Root the tree in iTOL using the outgroup _S. coleicolor_ Ppk1 sequence that was propagated in
 5. Visualize in `Empress` coloring by Tmscore, highlighting individuals with > 0.98 Tmscore
 6. Use the Rscript `scripts/phylo-comps.R` to calculate pairwise patristic distance, and compare to pairwise Seqid and Tmscore to Accumulibacter for the clustered representatives within the _Pseudomonadota_ phylum, which is output as two interactive `plotly` plots for exploration
+
+## Contributing
+If you have suggestions or encounter any problems with the workflow or associated scripts please [file an issue](https://github.com/Arcadia-Science/polyphosphate/issues). You are also welcome to submit a pull request if you wish to dive in to the code. See [this guide](https://github.com/Arcadia-Science/arcadia-software-handbook/blob/main/guides-and-standards/guide-credit-for-contributions.md) to see how we recognize feedback and contributions on our code.
