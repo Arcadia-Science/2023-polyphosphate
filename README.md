@@ -27,7 +27,7 @@ Accessions on Uniprot were retrieved by searching "ppk1" and either filtered by 
 Protein FASTA accessions and corresponding Alphafold structures are downloaded with `scripts/download_alphafold_pdbs.py`. For Uniprot the Uniprot accession mostly matches the name of the Alphafold PDB file, but the script still checks against the alphafold accessions CSV that was downloaded from the Alphafold website.
 
 ### Cluster all proteins
-Using the [`ProteinCartography`](https://github.com/Arcadia-Science/ProteinCartography) workflow with the `from-folder` configuration, I clustered all ppk1 PDB structure files. This was used from a early version of the repository. The workflow is a Snakemake pipeline that runs with:
+Using the [`ProteinCartography`](https://github.com/Arcadia-Science/ProteinCartography) workflow with the `from-folder` configuration, I clustered all ppk1 PDB structure files in July 2023. This was used from a early version of the repository. The workflow is a Snakemake pipeline that runs with:
 
 ```
 snakemake --snakefile Snakefile_ff --configfile config_ff_ppk1.yml --cores n
@@ -56,7 +56,7 @@ The steps for running `mmseqs easy-search` and `foldseek easy-search` and plotti
 
 To use the workflow, you will need to have Docker and Nextflow installed:
 1. Install Docker [according to these instructions for your operating system](https://docs.docker.com/engine/install/).
-2. The easiest way to install Nextflow without worrying about dependency issues on your machine is through a conda environment, and can [install according to the instructions for your operation system](https://docs.conda.io/en/latest/miniconda.html). This is included in the `environment.yml` file. You can access the `environment.yml` file and all files neccessary for running the workflow with: 
+2. The easiest way to install Nextflow without worrying about dependency issues on your machine is through a conda environment, and can [install according to the instructions for your operation system](https://docs.conda.io/en/latest/miniconda.html). This is included in the `environment.yml` file. You can access the `environment.yml` file and all files neccessary for running the workflow with:
 
 ```
 git clone https://github.com/Arcadia-Science/polyphosphate.git
