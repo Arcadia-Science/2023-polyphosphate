@@ -1,5 +1,9 @@
 library(tidyverse)
 
+#################################################
+# Filter Uniprot accessions and create metadata table
+#################################################
+
 # bacteria ppk1 uniprot accessions 
 ppk1_uniprot_bacteria_accessions <- read.delim("metadata/uniprot-ppk1-bacteria-accessions.tsv", sep="\t", header=TRUE, na.strings = "")
 

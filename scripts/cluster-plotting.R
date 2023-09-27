@@ -1,6 +1,9 @@
 library(tidyverse)
-library(ArcadiaColorBrewer)
 library(ggpubr)
+
+#################################################
+# Explore and plot structure clusters from foldseek
+#################################################
 
 # metadata
 ppk1_metadata <- read_tsv("metadata/all-filtered-ppk1-accessions.tsv") %>% 
