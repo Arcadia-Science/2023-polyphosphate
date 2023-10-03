@@ -27,7 +27,7 @@ Accessions on Uniprot were retrieved by searching "ppk1" and either filtered by 
 Protein FASTA accessions and corresponding Alphafold structures are downloaded with `scripts/download_alphafold_pdbs.py`. For Uniprot the Uniprot accession mostly matches the name of the Alphafold PDB file, but the script still checks against the alphafold accessions CSV that was downloaded from the Alphafold website.
 
 ### Cluster all proteins
-Using the [`ProteinCartography`](https://github.com/Arcadia-Science/ProteinCartography) workflow with the `from-folder` configuration (which is now the "Cluster" mode in the most updated version of ProteinCartography), I clustered all ppk1 PDB structure files in July 2023. This was used from a early version of the repository. The workflow is a Snakemake pipeline that runs with:
+Using the [`ProteinCartography`](https://github.com/Arcadia-Science/ProteinCartography) workflow with the `from-folder` configuration from [commit bc7f205](https://github.com/Arcadia-Science/ProteinCartography/commit/bc7f2059eae4cbebe9edce6364c5650c1873f51e) (which is now the "Cluster" mode in the most updated version of ProteinCartography), I clustered all ppk1 PDB structure files in July 2023. This was used from a early version of the repository. The workflow is a Snakemake pipeline that runs with:
 
 ```
 snakemake --snakefile Snakefile_ff --configfile config_ff_ppk1.yml --cores n
