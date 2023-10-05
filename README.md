@@ -1,5 +1,5 @@
 # Sequence and Structural Homology of Proteins involved in Microbial Polyphosphate Cycling
-This repository contains notebooks, scripts, workflows, and results for exploring the sequence and structural homology of proteins that are involved in microbial polyphosphate cycling.
+This repository is associated with the pub [Discovering shared protein structure signatures connected to polyphosphate accumulation in diverse bacteria](https://doi.org/10.57844/arcadia-ac10-23e7) and contains notebooks, scripts, workflows, and results for exploring the sequence and structural homology of proteins that are involved in microbial polyphosphate cycling.
 
 ## Background
 Inorganic polyphosphates (polyP) are polymers of orthophosphate and are ubiquitous across life from bacteria to higher eukaryotes. It spans numerous functions such as basic metabolism, sensing/responding to environmental changes, stress survival, sources of ATP, maintenance of cellular structure, etc.
