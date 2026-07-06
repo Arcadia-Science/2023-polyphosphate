@@ -6,10 +6,34 @@ library(ggpubr)
 #################################################
 
 # metadata
-ppk1_metadata <- read_tsv("metadata/all-filtered-ppk1-accessions.tsv") %>% 
-  mutate(accession = Entry) %>% 
-  select(accession, Taxonomic.lineage, Organism, Phylum) %>% 
+ppk1_metadata <- read_tsv("metadata/all-filtered-ppk1-accessions.tsv") %>%
+  mutate(accession = Entry) %>%
+  select(accession, Taxonomic.lineage, Organism, Phylum) %>%
   mutate(Phylum = replace_na(Phylum, "Other"))
+
+# Reconstruct ppk1_results (used below in left_join) and ppk1_results_metadata (used to
+# derive top_filtered_phyla) from the committed mmseqs/foldseek outputs. Previously these
+# objects were carried over from scripts/ppk1-seq-vs-structure-comps.R in a shared
+# interactive session; rebuilding them here from the same on-disk files (mirroring
+# ppk1-seq-vs-structure-comps.R) makes this script self-contained and reproduces the
+# identical objects.
+ppk1_mmseqs <- read.table("results/A0A369XMZ4_CAP_ppk1_sequences_search.m8", sep="\t", col.names = c("mmseqs_query", "mmseqs_target", "seqid", "alnlen", "mismatch", "gaps", "qstart", "qend", "tstart", "tend", "evalue", "bits"))
+ppk1_foldseek <- read.table("results/A0A369XMZ4_CAP_ppk1_structures_search.m8", sep="\t", col.names=c("foldseek_query","foldseek_target","fident","alnlen","alntmscore","qstart","qend","tstart","tend","evalue","bits"))
+
+ppk1_mmseqs_filtered <- ppk1_mmseqs %>%
+  select(mmseqs_target, seqid) %>%
+  mutate(accession = mmseqs_target) %>%
+  select(accession, seqid)
+
+ppk1_foldseek_filtered <- ppk1_foldseek %>%
+  select(foldseek_target, alntmscore) %>%
+  mutate(accession = gsub("-F1-model_v1.pdb", "", foldseek_target)) %>%
+  select(accession, alntmscore)
+
+ppk1_results <- left_join(ppk1_mmseqs_filtered, ppk1_foldseek_filtered)
+
+ppk1_results_metadata <- left_join(ppk1_results, ppk1_metadata) %>%
+  mutate(Phylum = if_else(is.na(Phylum), "Other", Phylum))
 
 # clustering results
 pca_tsne <- read.table("results/ppk1_clustering_results/all_by_all_tmscore_pivoted_pca_tsne.tsv", header = TRUE) %>% 

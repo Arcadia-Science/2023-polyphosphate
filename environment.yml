@@ -11,7 +11,9 @@ dependencies:
   - empress=1.2.0.dev0
   - biopython=1.81
   - python=3.11.2
-  - r=3.6.0
+  - numpy
+  - py3dmol
+  - r-base>=4.2
   - r-tidyverse=2.0.0
   - r-ggpubr=0.6.0
   - r-plotly=4.10.2

@@ -23,14 +23,14 @@ A0A369XMZ4_comparisons <- ppk1_distances_df %>%
   filter(target != 'Q9KZV6') # remove the outgroup comparison
 
 # sequence similarity results for A0A369XMZ4 PPK1
-acc_ppk1_mmseqs_table <- read.table("results/CAP_ppk1_sequences_search.m8", sep="\t", col.names = c("mmseqs_query", "mmseqs_target", "seqid", "alnlen", "mismatch", "gaps", "qstart", "qend", "tstart", "tend", "evalue", "bits")) %>% 
+acc_ppk1_mmseqs_table <- read.table("results/A0A369XMZ4_CAP_ppk1_sequences_search.m8", sep="\t", col.names = c("mmseqs_query", "mmseqs_target", "seqid", "alnlen", "mismatch", "gaps", "qstart", "qend", "tstart", "tend", "evalue", "bits")) %>%
   select(mmseqs_query, mmseqs_target, seqid) %>% 
   mutate(query = mmseqs_query) %>% 
   mutate(target = mmseqs_target) %>% 
   select(-mmseqs_query, -mmseqs_target)
 
 # structural similarity results for A0A369XMZ4 PPK1
-acc_ppk1_foldseek_table <- read.table("results/CAP_ppk1_structures_search.m8", sep="\t", col.names=c("foldseek_query","foldseek_target","fident","alnlen","alntmscore","qstart","qend","tstart","tend","evalue","bits")) %>% 
+acc_ppk1_foldseek_table <- read.table("results/A0A369XMZ4_CAP_ppk1_structures_search.m8", sep="\t", col.names=c("foldseek_query","foldseek_target","fident","alnlen","alntmscore","qstart","qend","tstart","tend","evalue","bits")) %>%
   select(foldseek_query, foldseek_target, alntmscore) %>% 
   mutate(query = gsub("-F1-model_v4.pdb", "", foldseek_query)) %>% 
   mutate(query = gsub("AF-", "", query)) %>% 
