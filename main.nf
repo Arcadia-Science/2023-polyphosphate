@@ -82,7 +82,7 @@ process foldseek_easy_search {
     script:
     def args = task.ext.args ?: "--format-output query,target,fident,alnlen,alntmscore,qstart,qend,tstart,tend,evalue,bits --exhaustive-search 1"
     """
-    foldseek easy-search ${structure_dir}/${query}-F1-model_v1.pdb ${structure_dir} ${query}.foldseek_result.m8 tmp --threads 5 $args
+    foldseek easy-search ${structure_dir}/${query}-F1-model_v4.pdb ${structure_dir} ${query}.foldseek_result.m8 tmp --threads 5 $args
     """
 
 }

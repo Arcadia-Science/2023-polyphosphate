@@ -1,14 +1,19 @@
 library(tidyverse)
-library(ArcadiaColorBrewer)
 library(ggpubr)
+# NOTE: ArcadiaColorBrewer (an internal Arcadia package) was previously loaded here
+# but never called -- every color below is a hard-coded hex value -- so the dependency
+# has been removed to keep this script runnable from the conda environment.
 
 #################################################
 # Parse results from mmseqs and foldseek and plot, command-line automated script of this is bin/filter-plot-protein-comps.R
 #################################################
 
 # metadata
-ppk1_metadata <- all_filtered_ppk1_accessions %>% 
-  mutate(accession = Entry) %>% 
+# Read the persisted metadata table written by scripts/ppk1-uniprot-accessions-filtering.R
+# (previously this used the `all_filtered_ppk1_accessions` object carried over from that
+# script in an interactive session; reading the file makes this script self-contained).
+ppk1_metadata <- read_tsv("metadata/all-filtered-ppk1-accessions.tsv") %>%
+  mutate(accession = Entry) %>%
   select(accession, Taxonomic.lineage, Organism, Phylum)
 
 #################################################
@@ -179,12 +184,17 @@ ppk1_all_pseud_metadata <- ppk1_results_metadata %>%
 ppk1_pseud_metadata_clusters <- left_join(ppk1_all_pseud_metadata, high_hits) %>% 
   left_join(structure_clusters_info)
 
-ppk1_pseud_leiden_metadata <- left_join(ppk1_all_pseud_metadata, lc32)
-
-write.table(ppk1_pseud_accession_list, "metadata/pseudomonadota-ppk1-list.txt", sep="\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
+# NOTE: The two lines below reference objects (`lc32`, `ppk1_pseud_accession_list`) that
+# existed only in the original interactive R session and were never defined in any script.
+# Their outputs -- metadata/pseudomonadota-leiden-ppk1-metadata.tsv and
+# metadata/pseudomonadota-ppk1-list.txt -- are already computed and committed to the repo,
+# so these lines are commented out to keep the script runnable without overwriting (or
+# risking a change to) those committed files.
+# ppk1_pseud_leiden_metadata <- left_join(ppk1_all_pseud_metadata, lc32)
+# write.table(ppk1_pseud_accession_list, "metadata/pseudomonadota-ppk1-list.txt", sep="\t", quote = FALSE, row.names = FALSE, col.names = FALSE)
 
 write.table(ppk1_pseud_metadata_clusters, "metadata/pseudomonadota-ppk1-metadata.tsv", sep="\t", quote=FALSE, row.names = FALSE)
 
-write.table(ppk1_pseud_leiden_metadata, "metadata/pseudomonadota-leiden-ppk1-metadata.tsv", sep="\t", quote=FALSE, row.names = FALSE)
+# write.table(ppk1_pseud_leiden_metadata, "metadata/pseudomonadota-leiden-ppk1-metadata.tsv", sep="\t", quote=FALSE, row.names = FALSE)
 
 write.table(ppk1_all_pseud, "metadata/all-pseudo-ppk1-list.txt", sep="\t", quote=FALSE, row.names=FALSE, col.names=FALSE)
